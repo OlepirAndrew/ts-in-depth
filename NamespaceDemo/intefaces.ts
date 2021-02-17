@@ -34,5 +34,12 @@ interface ILibrarian extends IPerson {
     assistCustomer: (custName: string) => void;
 }
 
+// 07.02
 
-export {IBook, IAuthor, ILibrarian, IPerson, DamageLogger as Logger};
+interface IMagazine {
+    title: string;
+    publisher: string;
+}
+
+
+export { IBook, IAuthor, ILibrarian, IPerson, DamageLogger as Logger, IMagazine };

@@ -5,10 +5,26 @@ import * as Interfaces from '../NamespaceDemo/intefaces';
 import * as Types from '../NamespaceDemo/types';
 import { ECategory } from '../NamespaceDemo/enums';
 
-import * as assert from 'assert';
-import { logFirstAvailable, getAllBooks, createCustomer, getBookById, getCheckoutBooks, getTitles, getBookTitlesByCategory, logBookTitles, calcTotalPages, createCustomerID, getBookAuthorByIndex, bookTitleTransform, printBook, getProperties } from '../NamespaceDemo/functions';
-import { UniversityLibrarian, RefBook } from '../NamespaceDemo/classes';
-import type { Library } from '../NamespaceDemo/classes';
+import {
+    logFirstAvailable,
+    getAllBooks,
+    createCustomer,
+    getBookById,
+    getCheckoutBooks,
+    getTitles,
+    getBookTitlesByCategory,
+    logBookTitles,
+    calcTotalPages,
+    createCustomerID,
+    getBookAuthorByIndex,
+    bookTitleTransform,
+    printBook,
+    getProperties
+} from '../NamespaceDemo/functions';
+
+import { UniversityLibrarian, RefBook, Reader, Shelf } from './classes';
+import type { Library } from './classes';
+import { purge } from '../NamespaceDemo/functions';
 
 showHello('greeting', 'TypeScript');
 
@@ -108,11 +124,16 @@ const PersonalBook: Types.TPersonBook = {
 };
 
 // 06.05
-if(true){
-    import('../NamespaceDemo/classes').then(module => {
-        console.log(module.Reader);
-    });
+
+async function getClass<T>(myPath: string, myClass: string): Promise<T>{
+    return import('./classes').then(module =>
+        new module[myClass]()
+    );
 }
+
+const newReader: Reader = await getClass<Reader>('../NamespaceDemo/classes','Reader');
+console.log(newReader);
+
 
 // 06.06.05
 const library: Library = {
@@ -120,3 +141,30 @@ const library: Library = {
     name: 'Name',
     address: 'Address'
 };
+
+// 07.01.04
+const inventory: Interfaces.IBook[] = [
+    { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: ECategory.Software },
+    { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: ECategory.Software },
+    { id: 12, title: '8-Bit Graphics with Cobol', author: 'A. B.', available: true, category: ECategory.Software },
+    { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C. D.', available: true, category: ECategory.Software }
+];
+
+// 07.01.05
+// const result: Interfaces.IBook[] = purge<Interfaces.IBook>(inventory);
+// console.log(result);
+
+// 07.02.06
+const bookShelf = new Shelf<Interfaces.IBook>();
+inventory.forEach((book: Interfaces.IBook) => bookShelf.add(book));
+console.log(bookShelf.getFirst());
+// 07.02.07
+const magazines: Interfaces.IMagazine[] = [
+    { title: 'Programming Language Monthly', publisher: 'Code Mags' },
+    { title: 'Literary Fiction Quarterly', publisher: 'College Press' },
+    { title: 'Five Points', publisher: 'GSU' }
+];
+// 07.02.07
+const magazineShelf = new Shelf<Interfaces.IMagazine>();
+magazines.forEach((mag: Interfaces.IMagazine) => magazineShelf.add(mag));
+console.log(magazineShelf.getFirst());

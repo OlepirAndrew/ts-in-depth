@@ -137,3 +137,8 @@ export function getProperties(book: Interfaces.IBook, property: Types.TBookPrope
     return typeof book[property] === 'function' ? (book[property] as Function).name : book[property];
 }
 
+// 07.01.01
+export function purge<T>(inventory: T[]): T[] {
+    return inventory.slice(2);
+}
+

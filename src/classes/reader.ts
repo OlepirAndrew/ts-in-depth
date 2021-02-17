@@ -1,4 +1,4 @@
-import { IBook } from '../intefaces';
+import { IBook } from '../../NamespaceDemo/intefaces';
 
 export class Reader {
     name: string;

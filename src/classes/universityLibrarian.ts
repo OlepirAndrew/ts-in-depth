@@ -1,4 +1,4 @@
-import * as Interfaces from '../intefaces';
+import * as Interfaces from '../../NamespaceDemo/intefaces';
 // 05.04.01
 export class UniversityLibrarian implements Interfaces.ILibrarian {
     name: string;
